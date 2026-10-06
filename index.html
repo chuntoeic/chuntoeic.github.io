@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CHUN TOEIC</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f7fb;
+    color: #172033;
+}
+
+header {
+    background: linear-gradient(135deg, #2563eb, #4f46e5);
+    color: white;
+    padding: 25px 20px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 36px;
+}
+
+header p {
+    margin: 8px 0 0;
+    opacity: .9;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 25px auto;
+    padding: 0 15px;
+}
+
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.tab {
+    border: none;
+    background: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+}
+
+.tab.active {
+    background: #2563eb;
+    color: white;
+}
+
+.section {
+    display: none;
+}
+
+.section.active {
+    display: block;
+}
+
+.card {
+    background: white;
+    padding: 22px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.07);
+}
+
+.card h2 {
+    margin-top: 0;
+}
+
+input, select {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #d7dce5;
+    border-radius: 8px;
+    margin: 7px 0 12px;
+    font-size: 15px;
+}
+
+button {
+    border: none;
+    border-radius: 8px;
+    padding: 11px 18px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.primary {
+    background: #2563eb;
+    color: white;
+}
+
+.success {
+    background: #16a34a;
+    color: white;
+}
+
+.danger {
+    background: #dc2626;
+    color: white;
+}
+
+.gray {
+    background: #e5e7eb;
+    color: #111827;
+}
+
+button:hover {
+    opacity: .88;
+}
+
+.word-list {
+    display: grid;
+    gap: 12px;
+}
+
+.word {
+    border: 1px solid #e2e8f0;
+    padding: 16px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.word strong {
+    font-size: 18px;
+}
+
+.word small {
+    color: #64748b;
+}
+
+.word-buttons {
+    display: flex;
+    gap: 7px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.stat {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 3px 10px rgba(0,0,0,.06);
+}
+
+.stat-number {
+    font-size: 28px;
+    font-weight: bold;
+    color: #2563eb;
+}
+
+.quiz-box {
+    max-width: 750px;
+    margin: auto;
+}
+
+.question {
+    font-size: 25px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.options {
+    display: grid;
+    gap: 12px;
+}
+
+.option {
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
+    padding: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: left;
+    font-size: 16px;
+}
+
+.option:hover {
+    border-color: #2563eb;
+    background: #eff6ff;
+}
+
+.option.correct {
+    background: #dcfce7;
+    border-color: #16a34a;
+}
+
+.option.wrong {
+    background: #fee2e2;
+    border-color: #dc2626;
+}
+
+.progress {
+    height: 10px;
+    background: #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: #2563eb;
+    width: 0%;
+}
+
+.empty {
+    text-align: center;
+    color: #64748b;
+    padding: 30px;
+}
+
+footer {
+    text-align: center;
+    color: #64748b;
+    padding: 30px;
+}
+
+@media(max-width: 700px) {
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .word {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    header h1 {
+        font-size: 28px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>CHUN TOEIC</h1>
+    <p>Học từ vựng TOEIC • Luyện tập • Kiểm tra • Theo dõi tiến bộ</p>
+</header>
+
+<div class="container">
+
+    <div class="tabs">
+        <button class="tab active" onclick="showSection('home', this)">🏠 Trang chủ</button>
+        <button class="tab" onclick="showSection('vocabulary', this)">📚 Từ vựng</button>
+        <button class="tab" onclick="showSection('quiz', this)">📝 Kiểm tra</button>
+        <button class="tab" onclick="showSection('progress', this)">📊 Tiến độ</button>
+    </div>
+
+    <!-- HOME -->
+    <section id="home" class="section active">
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number" id="totalWords">0</div>
+                <div>Từ vựng</div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-number" id="totalQuiz">0</div>
+                <div>Câu đã làm</div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-number" id="correctQuiz">0</div>
+                <div>Câu đúng</div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-number" id="accuracy">0%</div>
+                <div>Độ chính xác</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>👋 Chào mừng đến với CHUN TOEIC</h2>
+            <p>
+                Đây là website cá nhân giúp bạn học và kiểm tra từ vựng TOEIC.
+            </p>
+
+            <button class="primary" onclick="showSectionByName('vocabulary')">
+                📚 Bắt đầu học
+            </button>
+
+            <button class="success" onclick="showSectionByName('quiz')">
+                📝 Làm bài kiểm tra
+            </button>
+        </div>
+
+        <div class="card">
+            <h2>💡 Cách học</h2>
+            <ol>
+                <li>Thêm từ vựng TOEIC.</li>
+                <li>Học nghĩa và loại từ.</li>
+                <li>Làm bài kiểm tra.</li>
+                <li>Xem kết quả và cải thiện từ sai.</li>
+            </ol>
+        </div>
+
+    </section>
+
+    <!-- VOCABULARY -->
+    <section id="vocabulary" class="section">
+
+        <div class="card">
+            <h2>➕ Thêm từ vựng</h2>
+
+            <label>Từ tiếng Anh</label>
+            <input id="wordInput" placeholder="Ví dụ: diligently">
+
+            <label>Nghĩa tiếng Việt</label>
+            <input id="meaningInput" placeholder="Ví dụ: một cách siêng năng">
+
+            <label>Loại từ</label>
+            <select id="typeInput">
+                <option value="noun">Danh từ (Noun)</option>
+                <option value="verb">Động từ (Verb)</option>
+                <option value="adjective">Tính từ (Adjective)</option>
+                <option value="adverb">Trạng từ (Adverb)</option>
+                <option value="other">Khác</option>
+            </select>
+
+            <label>Ví dụ</label>
+            <input id="exampleInput" placeholder="Ví dụ: She works diligently.">
+
+            <button class="primary" onclick="addWord()">
+                ➕ Thêm từ
+            </button>
+        </div>
+
+        <div class="card">
+            <h2>🔎 Danh sách từ vựng</h2>
+
+            <input id="searchInput"
+                   placeholder="Tìm từ vựng..."
+                   oninput="renderWords()">
+
+            <div id="wordList" class="word-list"></div>
+        </div>
+
+    </section>
+
+    <!-- QUIZ -->
+    <section id="quiz" class="section">
+
+        <div class="card quiz-box">
+
+            <div id="quizStart">
+                <h2>📝 Kiểm tra từ vựng</h2>
+
+                <p>
+                    Hệ thống sẽ lấy ngẫu nhiên các từ vựng bạn đã thêm.
+                </p>
+
+                <label>Số câu</label>
+
+                <select id="quizAmount">
+                    <option value="5">5 câu</option>
+                    <option value="10">10 câu</option>
+                    <option value="20">20 câu</option>
+                </select>
+
+                <button class="primary" onclick="startQuiz()">
+                    🚀 Bắt đầu
+                </button>
+            </div>
+
+            <div id="quizGame" style="display:none">
+
+                <div>
+                    Câu <span id="currentNumber">1</span> /
+                    <span id="questionTotal">5</span>
+                </div>
+
+                <br>
+
+                <div class="progress">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+
+                <div class="question" id="questionText"></div>
+
+                <div id="options" class="options"></div>
+
+                <br>
+
+                <button class="gray" onclick="nextQuestion()">
+                    Câu tiếp theo →
+                </button>
+
+            </div>
+
+            <div id="quizResult" style="display:none">
+
+                <h2>🎉 Kết quả</h2>
+
+                <div class="stat">
+                    <div class="stat-number" id="finalScore">
+                        0%
+                    </div>
+                    <div>Độ chính xác</div>
+                </div>
+
+                <br>
+
+                <p id="resultMessage"></p>
+
+                <button class="primary" onclick="resetQuiz()">
+                    🔄 Làm lại
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- PROGRESS -->
+    <section id="progress" class="section">
+
+        <div class="card">
+            <h2>📊 Tiến độ học tập</h2>
+
+            <div class="stats">
+
+                <div class="stat">
+                    <div class="stat-number" id="pWords">0</div>
+                    <div>Từ vựng</div>
+                </div>
+
+                <div class="stat">
+                    <div class="stat-number" id="pQuiz">0</div>
+                    <div>Câu đã làm</div>
+                </div>
+
+                <div class="stat">
+                    <div class="stat-number" id="pCorrect">0</div>
+                    <div>Câu đúng</div>
+                </div>
+
+                <div class="stat">
+                    <div class="stat-number" id="pAccuracy">0%</div>
+                    <div>Độ chính xác</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🎯 Mục tiêu</h2>
+
+            <p>
+                Hãy cố gắng đạt độ chính xác từ <strong>80%</strong> trở lên.
+            </p>
+
+            <div class="progress">
+                <div class="progress-bar" id="goalBar"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <button class="danger" onclick="resetAllData()">
+                🗑️ Xóa toàn bộ dữ liệu
+            </button>
+        </div>
+
+    </section>
+
+</div>
+
+<footer>
+    © 2026 CHUN TOEIC — Website học TOEIC
+</footer>
+
+<script>
+
+/* =========================
+   DATA
+========================= */
+
+let words = JSON.parse(localStorage.getItem("chunToeicWords")) || [
+
+    {
+        word: "diligently",
+        meaning: "một cách siêng năng",
+        type: "adverb",
+        example: "She works diligently."
+    },
+
+    {
+        word: "employee",
+        meaning: "nhân viên",
+        type: "noun",
+        example: "The employee arrived early."
+    },
+
+    {
+        word: "purchase",
+        meaning: "mua hàng",
+        type: "verb",
+        example: "Customers can purchase products online."
+    },
+
+    {
+        word: "available",
+        meaning: "có sẵn",
+        type: "adjective",
+        example: "The product is available now."
+    },
+
+    {
+        word: "carefully",
+        meaning: "một cách cẩn thận",
+        type: "adverb",
+        example: "Please read the instructions carefully."
+    }
+
+];
+
+let quizStats = JSON.parse(localStorage.getItem("chunToeicStats")) || {
+    total: 0,
+    correct: 0
+};
+
+let quizQuestions = [];
+let quizIndex = 0;
+let quizCorrect = 0;
+let answered = false;
+
+
+/* =========================
+   SAVE
+========================= */
+
+function saveData() {
+
+    localStorage.setItem(
+        "chunToeicWords",
+        JSON.stringify(words)
+    );
+
+    localStorage.setItem(
+        "chunToeicStats",
+        JSON.stringify(quizStats)
+    );
+
+    updateStats();
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+function showSection(name, button) {
+
+    document.querySelectorAll(".section")
+        .forEach(section => section.classList.remove("active"));
+
+    document.getElementById(name)
+        .classList.add("active");
+
+    document.querySelectorAll(".tab")
+        .forEach(tab => tab.classList.remove("active"));
+
+    if(button) {
+        button.classList.add("active");
+    }
+
+    renderWords();
+    updateStats();
+}
+
+function showSectionByName(name) {
+
+    const buttons = document.querySelectorAll(".tab");
+
+    let targetButton = null;
+
+    buttons.forEach(button => {
+
+        if(button.textContent.toLowerCase().includes(
+            name === "vocabulary" ? "từ vựng" :
+            name === "quiz" ? "kiểm tra" : ""
+        )) {
+            targetButton = button;
+        }
+
+    });
+
+    showSection(name, targetButton);
+}
+
+
+/* =========================
+   VOCABULARY
+========================= */
+
+function addWord() {
+
+    const word = document.getElementById("wordInput").value.trim();
+    const meaning = document.getElementById("meaningInput").value.trim();
+    const type = document.getElementById("typeInput").value;
+    const example = document.getElementById("exampleInput").value.trim();
+
+    if(!word || !meaning) {
+
+        alert("Vui lòng nhập từ tiếng Anh và nghĩa tiếng Việt.");
+
+        return;
+    }
+
+    words.push({
+        word,
+        meaning,
+        type,
+        example
+    });
+
+    saveData();
+
+    document.getElementById("wordInput").value = "";
+    document.getElementById("meaningInput").value = "";
+    document.getElementById("exampleInput").value = "";
+
+    renderWords();
+
+    alert("Đã thêm từ vựng!");
+}
+
+
+function getTypeName(type) {
+
+    const names = {
+
+        noun: "Danh từ",
+        verb: "Động từ",
+        adjective: "Tính từ",
+        adverb: "Trạng từ",
+        other: "Khác"
+
+    };
+
+    return names[type] || type;
+}
+
+
+function renderWords() {
+
+    const list = document.getElementById("wordList");
+
+    if(!list) return;
+
+    const search =
+        document.getElementById("searchInput")?.value
+        .toLowerCase() || "";
+
+    const filtered = words.filter(item =>
+        item.word.toLowerCase().includes(search) ||
+        item.meaning.toLowerCase().includes(search)
+    );
+
+    if(filtered.length === 0) {
+
+        list.innerHTML =
+            `<div class="empty">
+                Không tìm thấy từ vựng.
+            </div>`;
+
+        return;
+    }
+
+    list.innerHTML = filtered.map((item, index) => {
+
+        const realIndex = words.indexOf(item);
+
+        return `
+            <div class="word">
+
+                <div>
+
+                    <strong>${escapeHTML(item.word)}</strong>
+
+                    <br>
+
+                    <span>
+                        ${escapeHTML(item.meaning)}
+                    </span>
+
+                    <br>
+
+                    <small>
+                        ${getTypeName(item.type)}
+                    </small>
+
+                    ${
+                        item.example
+                        ?
+                        `<br><small>📌 ${escapeHTML(item.example)}</small>`
+                        :
+                        ""
+                    }
+
+                </div>
+
+                <div class="word-buttons">
+
+                    <button
+                        class="danger"
+                        onclick="deleteWord(${realIndex})">
+                        Xóa
+                    </button>
+
+                </div>
+
+            </div>
+        `;
+
+    }).join("");
+}
+
+
+function deleteWord(index) {
+
+    if(!confirm("Bạn có chắc muốn xóa từ này?")) return;
+
+    words.splice(index, 1);
+
+    saveData();
+
+    renderWords();
+}
+
+
+function escapeHTML(text) {
+
+    return String(text)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+
+
+/* =========================
+   QUIZ
+========================= */
+
+function startQuiz() {
+
+    if(words.length < 4) {
+
+        alert(
+            "Bạn cần ít nhất 4 từ vựng để làm bài kiểm tra."
+        );
+
+        return;
+    }
+
+    let amount =
+        Number(document.getElementById("quizAmount").value);
+
+    amount = Math.min(amount, words.length);
+
+    quizQuestions = [...words]
+        .sort(() => Math.random() - 0.5)
+        .slice(0, amount);
+
+    quizIndex = 0;
+    quizCorrect = 0;
+    answered = false;
+
+    document.getElementById("quizStart").style.display = "none";
+    document.getElementById("quizResult").style.display = "none";
+    document.getElementById("quizGame").style.display = "block";
+
+    document.getElementById("questionTotal").textContent = amount;
+
+    showQuestion();
+}
+
+
+function showQuestion() {
+
+    answered = false;
+
+    const current = quizQuestions[quizIndex];
+
+    document.getElementById("currentNumber").textContent =
+        quizIndex + 1;
+
+    document.getElementById("questionText").textContent =
+        `Chọn nghĩa đúng của: "${current.word}"`;
+
+    const percent =
+        ((quizIndex) / quizQuestions.length) * 100;
+
+    document.getElementById("progressBar").style.width =
+        percent + "%";
+
+    let answers = [current.meaning];
+
+    const others = words
+        .filter(item => item.word !== current.word)
+        .sort(() => Math.random() - 0.5);
+
+    others.slice(0, 3).forEach(item => {
+        answers.push(item.meaning);
+    });
+
+    answers = answers.sort(() => Math.random() - 0.5);
+
+    const options = document.getElementById("options");
+
+    options.innerHTML = answers.map(answer => {
+
+        return `
+            <button
+                class="option"
+                onclick="selectAnswer(this, '${escapeJS(answer)}')">
+                ${escapeHTML(answer)}
+            </button>
+        `;
+
+    }).join("");
+}
+
+
+function escapeJS(text) {
+
+    return String(text)
+        .replaceAll("\\", "\\\\")
+        .replaceAll("'", "\\'")
+        .replaceAll("\n", "\\n")
+        .replaceAll("\r", "\\r");
+}
+
+
+function selectAnswer(button, answer) {
+
+    if(answered) return;
+
+    answered = true;
+
+    const correctAnswer =
+        quizQuestions[quizIndex].meaning;
+
+    const buttons =
+        document.querySelectorAll(".option");
+
+    buttons.forEach(btn => {
+
+        if(btn.textContent.trim() === correctAnswer) {
+            btn.classList.add("correct");
+        }
+
+    });
+
+    if(answer === correctAnswer) {
+
+        button.classList.add("correct");
+
+        quizCorrect++;
+
+    } else {
+
+        button.classList.add("wrong");
+
+    }
+
+}
+
+
+function nextQuestion() {
+
+    if(!answered) {
+
+        alert("Hãy chọn một đáp án trước.");
+
+        return;
+    }
+
+    quizIndex++;
+
+    if(quizIndex >= quizQuestions.length) {
+
+        finishQuiz();
+
+    } else {
+
+        showQuestion();
+
+    }
+}
+
+
+function finishQuiz() {
+
+    quizStats.total += quizQuestions.length;
+    quizStats.correct += quizCorrect;
+
+    saveData();
+
+    document.getElementById("quizGame").style.display = "none";
+
+    document.getElementById("quizResult").style.display = "block";
+
+    const score =
+        Math.round(
+            quizCorrect / quizQuestions.length * 100
+        );
+
+    document.getElementById("finalScore").textContent =
+        score + "%";
+
+    let message = "";
+
+    if(score >= 90) {
+
+        message = "🔥 Xuất sắc! Bạn đang học rất tốt.";
+
+    } else if(score >= 80) {
+
+        message = "👏 Rất tốt! Hãy tiếp tục duy trì.";
+
+    } else if(score >= 60) {
+
+        message = "👍 Khá tốt. Hãy ôn lại những từ sai.";
+
+    } else {
+
+        message = "💪 Đừng nản! Hãy học lại từ vựng và thử lại.";
+
+    }
+
+    document.getElementById("resultMessage").textContent =
+        `Bạn đúng ${quizCorrect}/${quizQuestions.length} câu. ${message}`;
+
+}
+
+
+function resetQuiz() {
+
+    document.getElementById("quizResult").style.display = "none";
+
+    document.getElementById("quizStart").style.display = "block";
+}
+
+
+/* =========================
+   STATS
+========================= */
+
+function updateStats() {
+
+    const total =
+        quizStats.total;
+
+    const correct =
+        quizStats.correct;
+
+    const accuracy =
+        total === 0
+        ? 0
+        : Math.round(correct / total * 100);
+
+    document.getElementById("totalWords").textContent =
+        words.length;
+
+    document.getElementById("totalQuiz").textContent =
+        total;
+
+    document.getElementById("correctQuiz").textContent =
+        correct;
+
+    document.getElementById("accuracy").textContent =
+        accuracy + "%";
+
+
+    document.getElementById("pWords").textContent =
+        words.length;
+
+    document.getElementById("pQuiz").textContent =
+        total;
+
+    document.getElementById("pCorrect").textContent =
+        correct;
+
+    document.getElementById("pAccuracy").textContent =
+        accuracy + "%";
+
+
+    const goal =
+        Math.min(accuracy, 100);
+
+    document.getElementById("goalBar").style.width =
+        goal + "%";
+}
+
+
+/* =========================
+   RESET
+========================= */
+
+function resetAllData() {
+
+    if(!confirm(
+        "Bạn chắc chắn muốn xóa toàn bộ dữ liệu?"
+    )) return;
+
+    localStorage.removeItem("chunToeicWords");
+    localStorage.removeItem("chunToeicStats");
+
+    location.reload();
+}
+
+
+/* =========================
+   START
+========================= */
+
+renderWords();
+updateStats();
+
+</script>
+
+</body>
+</html>
